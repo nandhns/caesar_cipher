@@ -1,11 +1,8 @@
-# app.py
-
 import streamlit as st
 import sqlite3
 from datetime import datetime
 from caesar import caesar_encrypt, caesar_decrypt
 
-# --- DB Setup ---
 DB_NAME = "database.db"
 
 def init_db():
@@ -25,7 +22,6 @@ def init_db():
 
 init_db()
 
-# --- Page Title ---
 st.title("🔐 Caesar Cipher Encryptor")
 
 # --- User Input Form ---
@@ -39,14 +35,14 @@ with st.form("encrypt_form"):
         st.success("Message encrypted!")
         st.text_area("🔒 Encrypted Message:", value=encrypted, height=100)
 
-        # Save to DB
+        # save to DB
         conn = sqlite3.connect(DB_NAME)
         conn.execute("INSERT INTO messages (original, encrypted, shift) VALUES (?, ?, ?)",
                      (plaintext, encrypted, shift))
         conn.commit()
         conn.close()
 
-# --- Display Saved Messages ---
+# display saved messages 
 st.subheader("📜 Stored Messages")
 
 conn = sqlite3.connect(DB_NAME)
