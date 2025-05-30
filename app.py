@@ -1,7 +1,8 @@
 import streamlit as st
 import sqlite3
 from datetime import datetime
-from caesar import caesar_encrypt, caesar_decrypt
+# from caesar import caesar_encrypt, caesar_decrypt 
+from caesar_cipher import encrypt, decrypt
 
 DB_NAME = "database.db"
 
@@ -31,7 +32,7 @@ with st.form("encrypt_form"):
     submitted = st.form_submit_button("Encrypt and Save")
 
     if submitted:
-        encrypted = caesar_encrypt(plaintext, shift)
+        encrypted = encrypt(plaintext, shift)
         st.success("Message encrypted!")
         st.text_area("🔒 Encrypted Message:", value=encrypted, height=100)
 
@@ -55,7 +56,7 @@ if rows:
         with st.expander(f"🧾 Message ID {msg_id} | Shift: {shift} | Saved: {timestamp}"):
             st.code(f"Original: {original}\nEncrypted: {encrypted}", language="text")
             if st.button(f"🔓 Decrypt ID {msg_id}", key=f"decrypt_{msg_id}"):
-                decrypted = caesar_decrypt(encrypted, shift)
+                decrypted = decrypt(encrypted, shift)
                 st.success(f"Decrypted Message: {decrypted}")
 else:
     st.info("No messages stored yet.")
